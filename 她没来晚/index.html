@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no" />
+    <title>逆转裁判（中国版）</title>
+    <style>
+      html, body { height: 100%; margin: 0; background: #0b0b10; overflow: hidden; }
+      #canvas { width: 100%; height: 100%; display: block; }
+      #fatal {
+        position: fixed; inset: 0; display: none;
+        align-items: center; justify-content: center;
+        background: rgba(0,0,0,.82); color: #fff;
+        font: 16px/1.6 sans-serif; padding: 24px; text-align: center;
+      }
+      #fatal button { margin-top: 14px; padding: 10px 14px; }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="fatal">
+      <div>
+        <div>哎呀，出错了，请重启试试吧~</div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showFatal() {
+          var el = document.getElementById("fatal");
+          if (el) el.style.display = "flex";
+        }
+        try {
+          var GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":12818416,"index.wasm":19796835},"focusCanvas":true,"gdnativeLibs":[]};
+          GODOT_CONFIG.canvas = document.getElementById("canvas");
+          var script = document.createElement("script");
+          script.src = "index.js";
+          script.onload = function () {
+            try {
+              var engine = new Engine(GODOT_CONFIG);
+              engine.startGame().catch(showFatal);
+            } catch (e) {
+              showFatal();
+            }
+          };
+          script.onerror = showFatal;
+          document.body.appendChild(script);
+        } catch (e) {
+          showFatal();
+        }
+      })();
+    </script>
+  </body>
+</html>
+

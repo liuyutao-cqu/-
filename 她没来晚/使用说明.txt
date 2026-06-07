@@ -1,0 +1,20 @@
+【如何运行（纯离线）】
+1）不要双击 index.html 直接打开（file:// 方式很多浏览器会黑屏）。
+2）在 export_web 文件夹内启动本地静态服务器（仍然完全离线，不访问外网）：
+   - 方式A（已安装 Python）：
+     打开 PowerShell，进入 export_web 目录后运行：
+     python -m http.server 8000
+     然后用浏览器打开：
+     http://127.0.0.1:8000/index.html
+   - 方式B（没有 Python）：
+     使用 VSCode 的 Live Server 插件或任意本地静态服务器工具，把根目录指向 export_web。
+
+【打包成 zip】
+把整个 export_web 文件夹压缩成 zip（包含 index.html/index.js/index.wasm/index.pck 等所有文件）。
+
+【为什么很难压到 8MB 以内】
+Godot 3 的 HTML5 导出会包含引擎运行时（index.wasm）和资源包（index.pck）。
+仅 index.wasm 通常就接近 20MB（即使压缩后也很难低于 8MB），因此“严格 zip < 8MB”在使用 Godot HTML5 导出时通常不可达。
+
+【如果必须严格 zip < 8MB】
+建议改用纯网页版本（不依赖 Godot 引擎），把剧情 JSON 直接内联到 JS，并按需替换/压缩图片与音频。
